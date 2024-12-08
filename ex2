@@ -1,0 +1,29 @@
+def count_bees_between_flowers(s, startIndex, endIndex):
+    # Convert the string s into a prefix sum array where each element counts the number of '*' up to that point.
+    n = len(s)
+    prefix_bees = [0] * (n + 1)  # prefix_bees[i] means the number of '*' from s[0] to s[i-1]
+    
+    # Fill the prefix_bees array
+    for i in range(1, n + 1):
+        prefix_bees[i] = prefix_bees[i - 1] + (1 if s[i - 1] == '*' else 0)
+    
+    # For each query, calculate the number of bees between the two flowers
+    results = []
+    for start, end in zip(startIndex, endIndex):
+        # Adjust 1-indexed to 0-indexed by subtracting 1
+        bees_between = prefix_bees[end] - prefix_bees[start - 1]
+        results.append(bees_between)
+    
+    return results
+
+
+# Read the input values
+s = input().strip()
+n = int(input().strip())
+startIndex = [int(input().strip()) for _ in range(n)]
+endIndex = [int(input().strip()) for _ in range(n)]
+
+# Calculate and output the results
+results = count_bees_between_flowers(s, startIndex, endIndex)
+for res in results:
+    print(res)
